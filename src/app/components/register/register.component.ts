@@ -39,9 +39,10 @@ export class RegisterComponent implements OnInit {
       this.FlashMessage.show('Your alarm has been added.', {cssClass: 'alert-success', timeout: 5000});
       }, 10);  
 
-    if (typeof (Storage) == undefined)
+     var storage = localStorage.getItem('user');
+    if (typeof(storage) == undefined)
       {
-          localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user));
       }else{
        var abc = [];
        var get =  JSON.parse(localStorage.getItem('user'));
