@@ -44,13 +44,13 @@ export class RegisterComponent implements OnInit {
       {
         localStorage.setItem('user', JSON.stringify(user));
       }else{
-       var abc = [];
+       var final = [];
        var get =  JSON.parse(localStorage.getItem('user'));
        for(var i =0; i< get.length; i++){
-           abc.push(get[i]);
+           final.push(get[i]);
        }
-       abc.push(user);
-       localStorage.setItem('user', JSON.stringify(abc));        
+       final.push(user);
+       localStorage.setItem('user', JSON.stringify(final));        
       }        
 
      let time = new Date().getTime()
