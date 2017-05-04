@@ -1,0 +1,21 @@
+<form (submit)="onRegisterSubmit()">
+<div class = "container">
+  <div class="overlay">
+
+  <div id="alarm-dialog">
+
+    <h2>Set alarm at</h2>
+
+    <div class="form-group">
+      <label class="hours">
+      <input type="datetime-local"  pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" class="form-control" [(ngModel)]="hours" name="hours"  value="0" min="0" />
+      </label>
+    </div>
+    <a class="close"></a>
+  </div>
+
+</div>
+
+  <input type="submit" class="btn btn-primary" value="Set Alarm">
+</div>
+</form>
