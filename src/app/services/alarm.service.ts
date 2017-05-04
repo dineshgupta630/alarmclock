@@ -6,33 +6,35 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 export class AlarmService {
    constructor(private FlashMessage: FlashMessagesService) {}
 
-   setUpAlarms(time: number): void{
+   setUpAlarms(time: number){
   
 
-   	var all =  JSON.parse(localStorage.getItem('user'));
+   	var all =  JSON.parse(localStorage.getItem('users'));
    	var mil = [];
-   	console.log(all);
+    var mili = [];
+    var eventNow = new Date();
 	  for(var i=0; i < all.length; i++){
+    	var eventEndTime = all[i]['hours'];
+      var flag = all[i]['flag'];
+    	if (eventEndTime >= new Date()) {
+          mil.push(all[i]);
+          var duration = eventEndTime.valueOf() - eventNow.valueOf();
+          mili.push(duration);
+          mili = mili.sort((a, b) => a - b);
+      }
+      }
+      console.log(mili);
+      localStorage.setItem('users', JSON.stringify(mil));
 
-	var hours = all[i]['hours'];
-	var eventEndTime = new Date(hours.replace('T', ' ').replace('-', '/'));
-	if (eventEndTime >= new Date()) {
-    	var eventStartTime = new Date();
-    	var duration = eventEndTime.valueOf() - eventStartTime.valueOf();
-   			 if (duration >= 0) {
-		        console.log(duration);
-		        mil.push(duration);
-		        mil = mil.sort((a, b) => a - b);
-    		}
-		 }
+       for(var i =0; i< mili.length; i++){
+          setTimeout(() => {
+            this.FlashMessage.show('ALARM CLOCK WAKE UP', {cssClass: 'alert-danger', timeout: 20000});
 
-	   }
+            }, mili[i]);    
 
-	 for(var i=0; i < mil.length; i++){
-	    setTimeout(() => {
-        this.FlashMessage.show('ALARM CLOCK WAKE UP', {cssClass: 'alert-danger', timeout: 20000});
-        }, mil[i]); 	    	
-	  }
-   	 }  
+            return;     
+          
+       }
+     }
   }
 
