@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
 export class AlarmService {
    public invokeEvent:Subject<any> = new Subject();
    constructor(private FlashMessage: FlashMessagesService) {}
-     setUpAlarms(time: number){
+     setUpAlarms(){
   
 
    	var storage =  JSON.parse(localStorage.getItem('users'));
