@@ -1,40 +1,33 @@
 import { Injectable } from '@angular/core';
 import {FlashMessagesService} from 'angular2-flash-messages';
+import { Subject } from 'rxjs/Subject';
+
 
 
 @Injectable()
 export class AlarmService {
+   public invokeEvent:Subject<any> = new Subject();
    constructor(private FlashMessage: FlashMessagesService) {}
-
-   setUpAlarms(time: number){
+     setUpAlarms(time: number){
   
 
-   	var all =  JSON.parse(localStorage.getItem('users'));
-   	var mil = [];
-    var mili = [];
+   	var storage =  JSON.parse(localStorage.getItem('users'));
+   	var alarms = [];
+    var miliseconds = [];
     var eventNow = new Date();
-	  for(var i=0; i < all.length; i++){
-    	var eventEndTime = all[i]['hours'];
-      var flag = all[i]['flag'];
+	  for(var i=0; i < storage.length; i++){
+    	var eventEndTime = storage[i]['hours'];
+      var flag = storage[i]['flag'];
     	if (eventEndTime >= new Date()) {
-          mil.push(all[i]);
+          alarms.push(storage[i]);
           var duration = eventEndTime.valueOf() - eventNow.valueOf();
-          mili.push(duration);
-          mili = mili.sort((a, b) => a - b);
+          miliseconds.push(duration);
+          miliseconds = miliseconds.sort((a, b) => a - b);
       }
       }
-      console.log(mili);
-      localStorage.setItem('users', JSON.stringify(mil));
+      localStorage.setItem('users', JSON.stringify(alarms));
 
-       for(var i =0; i< mili.length; i++){
-          setTimeout(() => {
-            this.FlashMessage.show('ALARM CLOCK WAKE UP', {cssClass: 'alert-danger', timeout: 20000});
-
-            }, mili[i]);    
-
-            return;     
-          
-       }
+      return miliseconds;
      }
   }
 
