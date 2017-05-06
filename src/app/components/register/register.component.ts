@@ -30,10 +30,7 @@ export class RegisterComponent implements OnInit {
       private Router: Router,
       private AlarmService: AlarmService,
   ) {
-      // setTimeout(() => {
 
-          
-      // }, 10);
   }
 
   ngOnInit() {
@@ -43,13 +40,11 @@ export class RegisterComponent implements OnInit {
 
           }, 1000);
 
-           this.AlarmService.setUpAlarms();
+          this.AlarmService.setUpAlarms();
 
   }
 
   onRegisterSubmit() {
-
-      // this.heroes = JSON.parse(localStorage.getItem('users'));
 
       var timeStr = new Date(this.hours);
       var date = new Date(timeStr);
