@@ -9,25 +9,29 @@ export class AlarmService {
    public invokeEvent:Subject<any> = new Subject();
    constructor(private FlashMessage: FlashMessagesService) {}
      setUpAlarms(){
-  
+         	var storage =  JSON.parse(localStorage.getItem('users'));
+         	var alarms = [];
+          var miliseconds = [];
+          for(var i= storage.length - 1; i > -1; i--){
+            var eventEndTime = storage[i]['hours'];
+            var flag = storage[i]['flag'];
+            var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+            var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-8);         
+            if(eventEndTime == localISOTime){
+                  storage.splice(i, 1);
+                  localStorage.setItem('users', JSON.stringify(storage));    
+                  this.notification();      
 
-   	var storage =  JSON.parse(localStorage.getItem('users'));
-   	var alarms = [];
-    var miliseconds = [];
-    var eventNow = new Date();
-	  for(var i=0; i < storage.length; i++){
-    	var eventEndTime = storage[i]['hours'];
-      var flag = storage[i]['flag'];
-    	if (eventEndTime >= new Date()) {
-          alarms.push(storage[i]);
-          var duration = eventEndTime.valueOf() - eventNow.valueOf();
-          miliseconds.push(duration);
-          miliseconds = miliseconds.sort((a, b) => a - b);
-      }
-      }
-      localStorage.setItem('users', JSON.stringify(alarms));
+             }
+            }  
+     }
 
-      return miliseconds;
+    notification(){
+        this.FlashMessage.show('ALARM CLOCK WAKE UP', {
+        cssClass: 'alert-danger',
+        timeout: 10000
+        });
+
      }
   }
 

@@ -30,19 +30,20 @@ export class RegisterComponent implements OnInit {
       private Router: Router,
       private AlarmService: AlarmService,
   ) {
-      setTimeout(() => {
-          this.ui();
-      }, 10);
   }
 
   ngOnInit() {
 
-      // this.ui();
+           this.AlarmService.setUpAlarms();
+              setInterval(() => {
+                  this.ui();
+              }, 10);
+
   }
 
   onRegisterSubmit() {
 
-      this.heroes = JSON.parse(localStorage.getItem('users'));
+      // this.heroes = JSON.parse(localStorage.getItem('users'));
 
       var timeStr = new Date(this.hours);
       var date = new Date(timeStr);
@@ -54,13 +55,11 @@ export class RegisterComponent implements OnInit {
       var dateStr = " The alarm time is " + hour + " Hours and " + minutes + " minutes and on date " + day + "/" + month + "/" + year;
 
       var user = {
-          hours: (new Date(this.hours.replace('T', ' ').replace('-', '/'))).valueOf(),
+          hours: this.hours,
           id: new Date().getTime(),
           time: dateStr,
           flag: 0,
       }
-
-      let time = new Date().getTime();
 
       var storage = localStorage.getItem('users');
       var final = [];
@@ -69,7 +68,6 @@ export class RegisterComponent implements OnInit {
           final.push(user);
           localStorage.setItem('users', JSON.stringify(final));
           // this.ui();
-          fromAlarmService = this.AlarmService.setUpAlarms();
       } else {
           var get = JSON.parse(localStorage.getItem('users'));
           var size = Object.keys(get).length;
@@ -87,19 +85,20 @@ export class RegisterComponent implements OnInit {
           final.push(user);
           localStorage.setItem('users', JSON.stringify(final));
 
-
-          // fromAlarmService = this.AlarmService.setUpAlarms(time);
-
-
       }
           this.ui();
-          // console.log(fromAlarmService);
+          setInterval(() => {
+
+          this.AlarmService.setUpAlarms();
+
+          }, 100);
+  
 
   }
 
 
   ui() {
-      let fromAlarmService = this.AlarmService.setUpAlarms();
+       this.AlarmService.setUpAlarms();
 
       setTimeout(() => {
 
@@ -110,19 +109,6 @@ export class RegisterComponent implements OnInit {
               this.heroes = JSON.parse(storage);
           }
       }, 100);
-
-      for (var i = 0; i < fromAlarmService.length; i--) {
-          setTimeout(() => {
-              this.FlashMessage.show('ALARM CLOCK WAKE UP', {
-                  cssClass: 'alert-danger',
-                  timeout: 10000
-              });
-              let time = new Date().getTime()
-              this.ui();
-              this.AlarmService.setUpAlarms();
-          }, fromAlarmService[i]);
-              break;
-      }
   }
 
   alarm(){
