@@ -30,16 +30,20 @@ export class RegisterComponent implements OnInit {
       private Router: Router,
       private AlarmService: AlarmService,
   ) {
+      // setTimeout(() => {
+
+          
+      // }, 10);
   }
 
   ngOnInit() {
              setInterval(() => {
 
-          this.AlarmService.setUpAlarms();
+          this.ui();
 
           }, 1000);
 
-          this.AlarmService.setUpAlarms();
+           this.AlarmService.setUpAlarms();
 
   }
 
