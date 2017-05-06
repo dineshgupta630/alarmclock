@@ -33,11 +33,13 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+             setInterval(() => {
 
-           this.AlarmService.setUpAlarms();
-              setInterval(() => {
-                  this.ui();
-              }, 10);
+          this.AlarmService.setUpAlarms();
+
+          }, 1000);
+
+          this.AlarmService.setUpAlarms();
 
   }
 
